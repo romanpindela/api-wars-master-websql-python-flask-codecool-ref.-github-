@@ -1,0 +1,16 @@
+/* -------------------------------------------------- main styles -------------------------------------------------- */
+
+body {
+    background: GhostWhite;
+}
+
+#contents {
+    padding: 1em;
+}
+
+
+/* ------------------------------------------------- table styles -------------------------------------------------- */
+
+.residents, .pilots, .homeworld, .starships, .vehicles {
+    text-align: center;
+}

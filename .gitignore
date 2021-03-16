@@ -1,0 +1,13 @@
+### Python & IDE ###
+__pycache__/
+.idea/
+venv/
+.env
+
+### temporary ###
+temp/
+*.tmp
+
+### others ###
+exercise/
+wiki/

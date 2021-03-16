@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <title>{{ subject_name|capitalize }} | API Wars</title>
+</head>
+<body>
+    <!-- Modal window -->
+    <div class="modal fade" id="modal-window" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> </h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body"> </div>
+                <div class="modal-footer"> </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow">
+        <div class="navbar-brand">API Wars</div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <!-- Subjects list -->
+                {% for subject in subjects_list %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if subject == subject_name %}active{% endif %}" href="{{ url_for('subject_page', subject=subject, page_number=1) }}">{{ subject|capitalize }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main page contents -->
+    <div id="contents">
+        <h1>{{ self.page_title() }}</h1>
+
+        <!-- Pagination bar -->
+        <nav>
+            <ul class="pagination">
+                <!-- Previous button -->
+                {% if page_active == 1 %}
+                    <li class="page-item disabled">
+                {% else %}
+                    <li class="page-item">
+                {% endif %}
+                    <a class="page-link" href="{{ url_for('subject_page', subject=subject_name, page_number=page_active - 1) }}">&laquo;</a>
+                    </li>
+
+                <!-- Page number buttons -->
+                {% for page in range(1, pages_number + 1) %}
+                    {% if page == page_active %}
+                        <li class="page-item active">
+                    {% else %}
+                        <li class="page-item">
+                    {% endif %}
+                        <a class="page-link" href="{{ url_for('subject_page', subject=subject_name, page_number=page) }}">{{ page }}</a>
+                        </li>
+                {% endfor %}
+
+                <!-- Next button -->
+                {% if page_active == pages_number %}
+                    <li class="page-item disabled">
+                {% else %}
+                    <li class="page-item">
+                {% endif %}
+                    <a class="page-link" href="{{ url_for('subject_page', subject=subject_name, page_number=page_active + 1) }}">&raquo;</a>
+                    </li>
+            </ul>
+        </nav>
+
+        {% block contents %}{% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='bootstrap/jquery-3.3.1.slim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/bootstrap.min.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

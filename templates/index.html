@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block page_title %}Star Wars {{ subject_name }} list{% endblock %}
+{% block contents %}
+    <!-- Subject data table -->
+    <table class="table table-bordered table-striped">
+        <!-- Header names -->
+        <thead class="table-dark">
+            <tr>
+                {% for name in column_names %}
+                    <th>{{ name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <!-- Subject data -->
+        <tbody>
+            {% for record in subject_data %}  {# all data #}
+                <tr>
+                    {% set firstLoop = loop %}
+                    {% for r_column_name, r_cell_data in record.items() %}  {# record data #}
+                        <td class="{{ r_column_name }}">
+                            {# a column with the button #}
+                            {% if r_column_name in button_data[0] %}
+                                {% set bd = button_data[firstLoop.index - 1][r_column_name] %}
+                                {% set data = bd['data'] %}
+                                {% set data_amount = bd['amount of data'] %}
+
+                                {# the button with the data #}
+                                {% if data_amount > 0 %}
+                                    <button type="button"
+                                            class="btn btn-sm btn-secondary button-data"
+                                            data-toggle="modal"
+                                            data-target="#modal-button-data"
+                                            data-record-name="{{ record['name'] }}"
+                                            data-column-name="{{ r_column_name }}"
+                                            data-data="{{ data }}"
+                                    >
+                                        {% if data_amount == 1 %}  {# singular #}
+                                            {% if r_column_name == 'homeworld' %}
+                                                {{ r_cell_data }}
+                                            {% else %}
+                                                1 {{ r_column_name[:-1] }}
+                                            {% endif %}
+                                        {% else %}  {# plural #}
+                                            {{ data_amount }} {{ r_column_name }}
+                                        {% endif %}
+                                    </button>
+
+                                {# no button #}
+                                {% else %}
+                                    No known {{ r_column_name }}
+                                {% endif %}
+
+                            {# normal data cell #}
+                            {% else %}
+                                {{ r_cell_data }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
